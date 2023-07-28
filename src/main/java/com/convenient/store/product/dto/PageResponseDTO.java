@@ -35,9 +35,10 @@ public class PageResponseDTO<E> {
         this.size = requestDTO.getSize();
         this.limit = requestDTO.getLimit();
 
-        int tempEnd = (int) Math.ceil((this.page * this.limit)/(double)total) * this.size;
+        int tempEnd = (int) Math.ceil((this.page * this.limit)/(double)(this.size * this.limit)) * this.size;
 
         log.info(tempEnd + " / tempEnd");
+        log.info(total + " / total");
 
         this.start = tempEnd - (this.size - 1);
         this.prev = this.start != 1;

@@ -48,33 +48,38 @@ public class ProductSearchImpl extends QuerydslRepositorySupport implements Prod
             }
         }
 
-
         // 3. 패이징 처리에 필요한 정보를 제공한다.
         int page = pageRequestDTO.getPage() - 1;
         int limit = pageRequestDTO.getLimit();
         Pageable pageable = PageRequest.of(page, limit, Sort.by("id"));
         this.getQuerydsl().applyPagination(pageable, query);
 
+        // 4. 검색및 카테고리
+        // searchType 1+1, 2+1, CU, GS25, SEVEN-ELEVEN
 
-        // 4. booleanBuilder로 검색 결과 제공
-        // 여기서 변수는 keyword, searchType인데 searchType은 [n, e, s] name, (event)state, sname
+        String keyword = pageRequestDTO.getKeyword();
+        if(keyword != null && keyword.length() != 0){
+            query.where(product.pname.contains(keyword));
+        }
 
         String searchType = pageRequestDTO.getSearchType();
 
         if(searchType != null && searchType.length() != 0){
 
-            String[] searchTypes = searchType.split("");
+            String[] searchTypes = searchType.split(" ");
 
             BooleanBuilder booleanBuilder = new BooleanBuilder();
-
-            String keyword = pageRequestDTO.getKeyword();
 
             for(String type : searchTypes){
 
                 switch (type){
-                    case "n" -> booleanBuilder.or(product.pname.eq(keyword));
-                    case "e" -> booleanBuilder.or(product.state.eq(keyword));
-                    case "s" -> booleanBuilder.or(product.state.eq(keyword));
+                    case "1+1":
+                    case "2+1":
+                        booleanBuilder.and(product.state.eq(type)); break;
+                    case "CU":
+                    case "GS25":
+                    case "SEVEN-ELEVEN":
+                        booleanBuilder.and(product.sname.eq(type)); break;
                 }
 
             }
@@ -99,6 +104,6 @@ public class ProductSearchImpl extends QuerydslRepositorySupport implements Prod
 
         Long total = fetch.fetchCount();
 
-        return new PageResponseDTO<>(list, total + 1, pageRequestDTO);
+        return new PageResponseDTO<>(list, total, pageRequestDTO);
     }
 }

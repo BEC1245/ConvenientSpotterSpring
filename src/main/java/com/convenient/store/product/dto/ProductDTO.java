@@ -1,7 +1,15 @@
 package com.convenient.store.product.dto;
 
+import lombok.*;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.time.LocalDateTime;
 
+@Data
+@ToString
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductDTO {
 
     private Long id;

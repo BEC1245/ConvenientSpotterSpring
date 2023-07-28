@@ -30,7 +30,7 @@ public class PageRequestDTO {
         this.size = size <= 1 || size > 30 ? 10 : size;
     }
     public void setLimit(int limit){
-        this.limit = limit <= 1 || limit > 30 ? 30 : limit;
+        this.limit = limit <= 1 || limit > 100 ? 30 : limit;
     }
 
 }
