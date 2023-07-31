@@ -1,7 +1,22 @@
 package com.convenient.store.product.dto;
 
+import lombok.*;
+
+@Data
+@ToString
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ReviewListDTO {
 
-    // 리스트로 받는건 List 로 데이터를 못 받는다 fuck
+    private Long id;
+
+    private int score;
+
+    private String content;
+
+    private String nickName;
+
+    private String profile;
 
 }

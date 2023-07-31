@@ -1,6 +1,7 @@
 package com.convenient.store.repository;
 
-import com.convenient.store.product.dto.PageRequestDTO;
+import com.convenient.store.product.common.dto.PageRequestDTO;
+import com.convenient.store.product.common.dto.PageResponseDTO;
 import com.convenient.store.product.dto.ProductListWithRcntDTO;
 import com.convenient.store.product.repository.ProductRepository;
 import com.convenient.store.product.service.ProductService;
@@ -25,10 +26,14 @@ public class ProductTests {
     public void productListTest(){
 
         PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
-                .keyword("비타")
                 .build();
 
-        List<ProductListWithRcntDTO> list = repository.list(pageRequestDTO).getList();
+        PageResponseDTO<ProductListWithRcntDTO> result = repository.list(pageRequestDTO);
+
+        log.info(result);
+        log.info("--------------------");
+
+        List<ProductListWithRcntDTO> list = result.getList();
 
         for(ProductListWithRcntDTO dto : list){
             log.info(dto);

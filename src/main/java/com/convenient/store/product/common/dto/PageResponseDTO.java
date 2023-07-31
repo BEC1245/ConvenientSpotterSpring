@@ -1,4 +1,4 @@
-package com.convenient.store.product.dto;
+package com.convenient.store.product.common.dto;
 
 import lombok.Data;
 import lombok.ToString;
@@ -52,5 +52,4 @@ public class PageResponseDTO<E> {
         this.pageNums = IntStream.rangeClosed(start, end).boxed().collect(Collectors.toList());
 
     }
-
 }

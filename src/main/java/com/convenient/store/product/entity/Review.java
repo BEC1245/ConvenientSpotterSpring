@@ -1,13 +1,12 @@
 package com.convenient.store.product.entity;
 
-import com.convenient.store.user.entity.User;
+import com.convenient.store.user.entity.Users;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -23,13 +22,16 @@ public class Review extends BaseEntity {
 
     private int score;
 
+    @Column(length = 1000)
     private String content;
 
+    @JoinColumn(nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Product product;
 
+    @JoinColumn(unique = true, nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    private Users users;
 
     @ElementCollection
     private List<ReviewImg> imgs;

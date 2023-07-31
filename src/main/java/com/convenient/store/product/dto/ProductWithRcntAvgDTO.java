@@ -1,17 +1,12 @@
 package com.convenient.store.product.dto;
 
 import lombok.*;
-import org.modelmapper.ModelMapper;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
 @Data
 @ToString
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class ProductDTO {
+public class ProductWithRcntAvgDTO{
 
     private Long id;
     private String pname;
@@ -24,4 +19,6 @@ public class ProductDTO {
     private LocalDateTime regDate;
     private LocalDateTime modDate;
 
+    private Double avg;
+    private Long count;
 }

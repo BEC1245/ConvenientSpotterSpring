@@ -1,7 +1,7 @@
 package com.convenient.store.product.repository.search;
 
-import com.convenient.store.product.dto.PageRequestDTO;
-import com.convenient.store.product.dto.PageResponseDTO;
+import com.convenient.store.product.common.dto.PageRequestDTO;
+import com.convenient.store.product.common.dto.PageResponseDTO;
 import com.convenient.store.product.dto.ProductListWithRcntDTO;
 import com.convenient.store.product.entity.Product;
 import com.convenient.store.product.entity.QProduct;
@@ -75,11 +75,11 @@ public class ProductSearchImpl extends QuerydslRepositorySupport implements Prod
                 switch (type){
                     case "1+1":
                     case "2+1":
-                        booleanBuilder.and(product.state.eq(type)); break;
+                        booleanBuilder.or(product.state.eq(type)); break;
                     case "CU":
                     case "GS25":
                     case "SEVEN-ELEVEN":
-                        booleanBuilder.and(product.sname.eq(type)); break;
+                        booleanBuilder.or(product.sname.eq(type)); break;
                 }
 
             }
