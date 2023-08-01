@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -29,11 +30,22 @@ public class Review extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Product product;
 
-    @JoinColumn(unique = true, nullable = false)
+    @JoinColumn(nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Users users;
 
     @ElementCollection
-    private List<ReviewImg> imgs;
+    @Builder.Default
+    private List<ReviewImg> imgs = new ArrayList<>();
+
+    public void insertImgs(String fileNames){
+
+        ReviewImg reviewImg = ReviewImg.builder()
+                .imageName(fileNames)
+                .ord(imgs.size())
+                .build();
+
+        imgs.add(reviewImg);
+    }
 
 }

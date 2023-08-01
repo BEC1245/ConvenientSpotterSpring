@@ -5,6 +5,7 @@ import com.convenient.store.product.common.dto.ScrollRequestDTO;
 import com.convenient.store.product.common.dto.ScrollResponseDTO;
 import com.convenient.store.product.entity.QProduct;
 import com.convenient.store.product.entity.QReview;
+import com.convenient.store.product.entity.QReviewImg;
 import com.convenient.store.product.entity.Review;
 import com.convenient.store.user.entity.QUsers;
 import com.querydsl.core.types.Projections;
@@ -29,15 +30,18 @@ public class ReviewSearchImpl extends QuerydslRepositorySupport implements Revie
         QReview review = QReview.review;
         QProduct product = QProduct.product;
         QUsers users = QUsers.users;
+        QReviewImg reviewImg = QReviewImg.reviewImg;
 
         // 쿼리 만들기
         JPQLQuery<Review> query = from(review);
 
+        query.leftJoin(review.imgs, reviewImg);
         query.innerJoin(product).on(review.product.eq(product));
         query.innerJoin(users).on(review.users.eq(users));
         query.where(product.id.eq(requestDTO.getId()));
+        query.groupBy(review.id);
 
-        Pageable pageable = PageRequest.of(requestDTO.getCursor(), 30, Sort.by("id"));
+        Pageable pageable = PageRequest.of(requestDTO.getCursor(), 5, Sort.by("id"));
         this.getQuerydsl().applyPagination(pageable, query);
 
         // Projections로 뽑아오기
@@ -46,7 +50,8 @@ public class ReviewSearchImpl extends QuerydslRepositorySupport implements Revie
                 review.score,
                 review.content,
                 users.nickName,
-                users.profile
+                users.profile,
+                reviewImg.imageName.min().as("mainImg")
                 ));
 
         List<ReviewListDTO> list = dto.fetch();

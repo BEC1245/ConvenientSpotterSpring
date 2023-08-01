@@ -2,6 +2,8 @@ package com.convenient.store.product.dto;
 
 import lombok.*;
 
+import java.util.List;
+
 @Data
 @ToString
 @Builder
@@ -18,5 +20,7 @@ public class ReviewListDTO {
     private String nickName;
 
     private String profile;
+
+    private String mainImg;
 
 }

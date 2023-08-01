@@ -35,6 +35,14 @@ public class ReviewTests {
 
         imgs.add(reviewImg);
 
+
+        ReviewImg reviewImg2 = ReviewImg.builder()
+                .ord(1)
+                .imageName("someimg2.jpg")
+                .build();
+
+        imgs.add(reviewImg2);
+
         // 유저 선택
         Users users = Users.builder()
                 .email("user005@notgmail.com")

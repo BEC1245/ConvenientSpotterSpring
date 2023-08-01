@@ -39,9 +39,11 @@ dependencies {
 	testCompileOnly 'org.projectlombok:lombok'
 	testAnnotationProcessor 'org.projectlombok:lombok'
 
-	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta"
-
 	implementation 'org.modelmapper:modelmapper:3.1.1'
+
+	implementation 'net.coobird:thumbnailator:0.4.20'
+
+	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta"
 
 	annotationProcessor(
 
