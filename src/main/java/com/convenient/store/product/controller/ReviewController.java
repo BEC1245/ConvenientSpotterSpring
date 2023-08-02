@@ -32,8 +32,8 @@ public class ReviewController {
     }
 
     @GetMapping("img/{id}")
-    public List<String> readImg(@PathVariable("id") Long id){
-        return  reviewService.getReviewImg(id);
+    public ReviewDTO readImg(@PathVariable("id") Long id){
+        return  reviewService.getReview(id);
     }
 
     @PostMapping("")
@@ -42,12 +42,23 @@ public class ReviewController {
         log.info(reviewDTO);
 
         List<String> fileNames = fileUploader.uploadFile(reviewDTO.getFiles(), 75, 75);
-        reviewDTO.setFileNames(fileNames);
+        reviewDTO.setImgs(fileNames);
 
         Long id = reviewService.regist(reviewDTO);
 
         return Map.of("result", 1L);
 
+    }
+
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable("id") Long id){
+        reviewService.deleteReview(id);
+    }
+
+    @PostMapping("test")
+    public void modify(ReviewDTO reviewDTO){
+        log.info("POST / Review List");
+        log.info(reviewDTO);
     }
 
 }

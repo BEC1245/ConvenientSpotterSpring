@@ -18,7 +18,7 @@ import java.util.UUID;
 @Component
 public class FileUploader {
 
-    @Value("${com.convenient.file.upload}")
+    @Value("${com.convenient.file.upload.review}")
     String loc;
 
     public List<String> uploadFile(List<MultipartFile> multipartFiles, int height, int width){
@@ -85,6 +85,25 @@ public class FileUploader {
         }
 
         return fileNames;
+    }
+
+    public void deleteFile(List<MultipartFile> multipartFiles){
+
+        if(multipartFiles == null || multipartFiles.size() < 0){
+            return;
+        }
+
+        for(MultipartFile ele : multipartFiles){
+
+            File file = new File(loc, ele.getOriginalFilename());
+
+            File thumb = new File(loc, "s_"+ele.getOriginalFilename());
+
+            if(thumb.exists()){
+                thumb.delete();
+            }
+            file.delete();
+        }
     }
 
 }

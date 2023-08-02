@@ -14,13 +14,15 @@ import java.util.List;
 @AllArgsConstructor
 public class ReviewDTO {
 
-    private Long review_id;
+    private Long id;
     private int score;
     private String content;
     private Long product_id;
-    private String users_email;
 
-    private List<String> fileNames;
+    private String email;
+    private String nickName;
+
+    private List<String> imgs;
 
     private List<MultipartFile> files;
 

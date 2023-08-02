@@ -56,7 +56,6 @@ public class ProductSearchImpl extends QuerydslRepositorySupport implements Prod
 
         // 4. 검색및 카테고리
         // searchType 1+1, 2+1, CU, GS25, SEVEN-ELEVEN
-
         String keyword = pageRequestDTO.getKeyword();
         if(keyword != null && keyword.length() != 0){
             query.where(product.pname.contains(keyword));

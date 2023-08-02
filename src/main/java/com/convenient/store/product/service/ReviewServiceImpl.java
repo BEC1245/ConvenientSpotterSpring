@@ -9,6 +9,7 @@ import com.convenient.store.product.entity.Review;
 import com.convenient.store.product.entity.ReviewImg;
 import com.convenient.store.product.repository.ReviewRepository;
 import com.convenient.store.user.entity.Users;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,9 @@ public class ReviewServiceImpl implements ReviewService {
     @Autowired
     private ReviewRepository reviewRepository;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @Override
     public ScrollResponseDTO<ReviewListDTO> getList(ScrollRequestDTO scrollRequestDTO) {
         return reviewRepository.getReviewList(scrollRequestDTO);
@@ -30,7 +34,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public Long regist(ReviewDTO reviewDTO) {
 
-        Users users = Users.builder().email(reviewDTO.getUsers_email()).build();
+        Users users = Users.builder().email(reviewDTO.getEmail()).build();
 
         Product product = Product.builder().id(reviewDTO.getProduct_id()).build();
 
@@ -41,7 +45,7 @@ public class ReviewServiceImpl implements ReviewService {
                 .product(product)
                 .build();
 
-        List<String> fileNames = reviewDTO.getFileNames();
+        List<String> fileNames = reviewDTO.getImgs();
 
         if(fileNames != null && fileNames.size() > 0) {
             fileNames.forEach(ele -> review.insertImgs(ele));
@@ -53,14 +57,30 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public List<String> getReviewImg(Long id) {
+    public ReviewDTO getReview(Long id) {
 
         Optional<Review> get = reviewRepository.findById(id);
 
         Review review = get.orElseThrow();
 
-        List<String> reviewImgs = review.getImgs().stream().map(ele -> ele.getImageName()).collect(Collectors.toList());
+        ReviewDTO reviewDTO = modelMapper.map(review, ReviewDTO.class);
 
-        return reviewImgs;
+        reviewDTO.setNickName(review.getUsers().getNickName());
+
+        reviewDTO.setImgs(review.getImgs().stream().map(ele -> ele.getImageName()).collect(Collectors.toList()));
+
+        return reviewDTO;
+
+    }
+
+    @Override
+    public void deleteReview(Long id) {
+
+        Review review = Review.builder()
+                .id(id)
+                .build();
+
+        reviewRepository.delete(review);
+
     }
 }

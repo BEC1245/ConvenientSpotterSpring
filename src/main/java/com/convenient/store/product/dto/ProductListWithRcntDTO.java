@@ -6,6 +6,7 @@ import lombok.ToString;
 @Data
 @ToString
 public class ProductListWithRcntDTO {
+
     private Long id;
     private String pname;
     private int price;
@@ -14,4 +15,5 @@ public class ProductListWithRcntDTO {
     private String img;
     private double avgScore;
     private Long reviewCount;
+
 }

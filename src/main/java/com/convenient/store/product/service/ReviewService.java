@@ -15,6 +15,8 @@ public interface ReviewService {
 
     Long regist(ReviewDTO reviewDTO);
 
-    List<String> getReviewImg(Long id);
+    ReviewDTO getReview(Long id);
+
+    void deleteReview(Long id);
 
 }

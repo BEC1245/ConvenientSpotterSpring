@@ -30,12 +30,17 @@ public class ReviewTests {
         ReviewDTO reviewDTO = ReviewDTO.builder()
                 .score(1)
                 .content("이 음식 구림")
-                .fileNames(fakeNames)
+                .imgs(fakeNames)
                 .product_id(2L)
-                .users_email("user009@notgmail.com")
+                .email("user009@notgmail.com")
                 .build();
 
         log.info(reviewService.regist(reviewDTO));
 
+    }
+
+    @Test
+    public void delete_1(){
+        reviewService.deleteReview(36L);
     }
 }

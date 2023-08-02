@@ -21,4 +21,5 @@ public class ProductWithRcntAvgDTO{
 
     private Double avg;
     private Long count;
+
 }
