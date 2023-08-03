@@ -14,4 +14,8 @@ public interface ProductService {
 
     ProductWithRcntAvgDTO get(Long id);
 
+    String update(ProductDTO productDTO);
+
+    String delete(Long id);
+
 }

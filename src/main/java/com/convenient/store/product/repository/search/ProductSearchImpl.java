@@ -35,8 +35,8 @@ public class ProductSearchImpl extends QuerydslRepositorySupport implements Prod
         // 2. 쿼리를 만든다
         JPQLQuery<Product> query = from(product);
         query.leftJoin(review).on(review.product.eq(product));
+        query.where(product.delflag.eq(false));
         query.groupBy(product);
-
 
         // 여기서 정렬 조건은 [pa, pd, rv]
         String ordType = pageRequestDTO.getOrderBy();
@@ -44,7 +44,7 @@ public class ProductSearchImpl extends QuerydslRepositorySupport implements Prod
             switch (ordType){
                 case "pa" -> query.orderBy(product.price.asc());
                 case "pd" -> query.orderBy(product.price.desc());
-                case "rv" -> query.orderBy(review.score.avg().asc());
+                case "rv" -> query.orderBy(review.score.avg().desc());
             }
         }
 
@@ -74,11 +74,11 @@ public class ProductSearchImpl extends QuerydslRepositorySupport implements Prod
                 switch (type){
                     case "1+1":
                     case "2+1":
-                        booleanBuilder.or(product.state.eq(type)); break;
+                        booleanBuilder.and(product.state.eq(type)); break;
                     case "CU":
                     case "GS25":
                     case "SEVEN-ELEVEN":
-                        booleanBuilder.or(product.sname.eq(type)); break;
+                        booleanBuilder.and(product.sname.eq(type)); break;
                 }
 
             }
@@ -94,9 +94,7 @@ public class ProductSearchImpl extends QuerydslRepositorySupport implements Prod
                 product.price,
                 product.state,
                 product.sname,
-                product.img,
-                review.score.avg().as("avgScore"),
-                review.count().as("reviewCount")
+                product.img
                 ));
 
         List<ProductListWithRcntDTO> list = fetch.fetch();

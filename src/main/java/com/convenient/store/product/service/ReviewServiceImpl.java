@@ -1,5 +1,6 @@
 package com.convenient.store.product.service;
 
+import com.convenient.store.product.common.utill.FileUploader;
 import com.convenient.store.product.dto.ReviewDTO;
 import com.convenient.store.product.dto.ReviewListDTO;
 import com.convenient.store.product.common.dto.ScrollRequestDTO;
@@ -11,6 +12,7 @@ import com.convenient.store.product.repository.ReviewRepository;
 import com.convenient.store.user.entity.Users;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +27,9 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private FileUploader fileUploader;
 
     @Override
     public ScrollResponseDTO<ReviewListDTO> getList(ScrollRequestDTO scrollRequestDTO) {
@@ -76,11 +81,42 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public void deleteReview(Long id) {
 
-        Review review = Review.builder()
-                .id(id)
-                .build();
+        Optional<Review> getReview = reviewRepository.findById(id);
 
-        reviewRepository.delete(review);
+        Review review = getReview.orElseThrow();
+
+        List<String> remainFileNames = review.getImgs().stream().map(ele -> ele.getImageName()).collect(Collectors.toList());
+
+        fileUploader.deleteFile("review", remainFileNames);
+
+        review.onDelflag();
+
+        reviewRepository.save(review);
+
+    }
+
+    // 추가한 파일 이름 + 삭제한 파일 이름 + 기존의 이름
+
+    @Override
+    public void updateReview(ReviewDTO reviewDTO) {
+
+        Optional<Review> getReview = reviewRepository.findById(reviewDTO.getId());
+
+        Review review = getReview.orElseThrow();
+
+        review.createScore(reviewDTO.getScore());
+        review.createContent(reviewDTO.getContent());
+
+        List<String> oldFileNames = review.getImgs().stream().map(ele -> ele.getImageName()).collect(Collectors.toList());
+        review.cleanImgs();
+
+        reviewDTO.getImgs().stream().forEach(ele -> review.insertImgs(ele));
+
+        reviewRepository.save(review);
+
+        List<String> remainFileNames = reviewDTO.getImgs().stream().filter(ele -> oldFileNames.indexOf(ele) != -1).collect(Collectors.toList());
+
+        fileUploader.deleteFile("review", remainFileNames);
 
     }
 }

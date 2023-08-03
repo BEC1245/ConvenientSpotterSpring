@@ -19,9 +19,19 @@ import java.util.UUID;
 public class FileUploader {
 
     @Value("${com.convenient.file.upload.review}")
-    String loc;
+    private String reviewLoc;
 
-    public List<String> uploadFile(List<MultipartFile> multipartFiles, int height, int width){
+    @Value("${com.convenient.file.upload.product}")
+    private String productLoc;
+
+
+    public static class UploadException extends RuntimeException {
+        public UploadException(String msg){ super(msg); }
+    }
+
+    public List<String> uploadFile(String locName, List<MultipartFile> multipartFiles, int height, int width){
+
+        String loc = getLog(locName);
 
         if(multipartFiles == null || multipartFiles.size() < 0){
             return null;
@@ -56,7 +66,9 @@ public class FileUploader {
         return fileNames;
     }
 
-    public List<String> uploadFile(List<MultipartFile> multipartFiles){
+    public List<String> uploadFile(String locName, List<MultipartFile> multipartFiles){
+
+        String loc = getLog(locName);
 
         if(multipartFiles == null || multipartFiles.size() < 0){
             return null;
@@ -87,23 +99,51 @@ public class FileUploader {
         return fileNames;
     }
 
-    public void deleteFile(List<MultipartFile> multipartFiles){
+    public void deleteFile(String locName, List<String> files){
 
-        if(multipartFiles == null || multipartFiles.size() < 0){
+        String loc = getLog(locName);
+
+        if(files == null || files.size() < 0){
             return;
         }
 
-        for(MultipartFile ele : multipartFiles){
+        for(String ele : files){
 
-            File file = new File(loc, ele.getOriginalFilename());
+            File file = new File(loc, ele);
 
-            File thumb = new File(loc, "s_"+ele.getOriginalFilename());
+            File thumb = new File(loc, "s_"+ele);
 
             if(thumb.exists()){
                 thumb.delete();
             }
             file.delete();
         }
+    }
+
+    public void deleteFile(String locName, String fileName){
+
+        String loc = getLog(locName);
+
+        if(fileName == null){
+            return;
+        }
+
+        File file = new File(loc, fileName);
+
+        File thumb = new File(loc, "s_"+fileName);
+
+        if(thumb.exists()){
+            thumb.delete();
+        }
+        file.delete();
+    }
+
+    public String getLog(String log){
+        switch (log){
+            case "review" : return reviewLoc;
+            case "product" : return productLoc;
+        }
+        throw new UploadException("log is not matched in File");
     }
 
 }

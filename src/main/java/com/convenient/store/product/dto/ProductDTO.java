@@ -3,6 +3,7 @@ package com.convenient.store.product.dto;
 import lombok.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -23,5 +24,7 @@ public class ProductDTO {
     private Boolean delflag;
     private LocalDateTime regDate;
     private LocalDateTime modDate;
+
+    private MultipartFile file;
 
 }

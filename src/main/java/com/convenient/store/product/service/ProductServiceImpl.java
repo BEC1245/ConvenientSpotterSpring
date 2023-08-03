@@ -2,6 +2,7 @@ package com.convenient.store.product.service;
 
 import com.convenient.store.product.common.dto.PageRequestDTO;
 import com.convenient.store.product.common.dto.PageResponseDTO;
+import com.convenient.store.product.common.utill.FileUploader;
 import com.convenient.store.product.dto.ProductDTO;
 import com.convenient.store.product.dto.ProductListWithRcntDTO;
 import com.convenient.store.product.dto.ProductWithRcntAvgDTO;
@@ -22,6 +23,7 @@ public class ProductServiceImpl implements ProductService{
     private final ProductRepository productRepository;
     private final ReviewRepository reviewRepository;
     private final ModelMapper modelMapper;
+    private final FileUploader fileUploader;
 
     @Override
     public PageResponseDTO<ProductListWithRcntDTO> list(PageRequestDTO pageRequestDTO) {
@@ -47,6 +49,27 @@ public class ProductServiceImpl implements ProductService{
         }
         return dto;
 
+    }
+
+    @Override
+    public String update(ProductDTO productDTO) {
+        return null;
+    }
+
+    @Override
+    public String delete(Long id) {
+
+        Optional<Product> getProduct = productRepository.findById(id);
+
+        Product product = getProduct.orElseThrow();
+
+        String img = product.getImg();
+
+        fileUploader.deleteFile("product", img);
+
+        productRepository.delete(product);
+
+        return null;
     }
 
 }

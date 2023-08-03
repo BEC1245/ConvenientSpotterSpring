@@ -31,5 +31,16 @@ public class ProductController {
         return productService.get(id);
     }
 
+    @PutMapping("")
+    public void modify(ProductDTO productDTO){
+        log.info(" PUT / modify ");
+        log.info(productDTO);
+    }
+
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable("id") Long id){
+        productService.delete(id);
+    }
+
 
 }

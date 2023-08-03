@@ -41,7 +41,7 @@ public class ReviewController {
 
         log.info(reviewDTO);
 
-        List<String> fileNames = fileUploader.uploadFile(reviewDTO.getFiles(), 75, 75);
+        List<String> fileNames = fileUploader.uploadFile("review", reviewDTO.getFiles(), 75, 75);
         reviewDTO.setImgs(fileNames);
 
         Long id = reviewService.regist(reviewDTO);
@@ -55,10 +55,19 @@ public class ReviewController {
         reviewService.deleteReview(id);
     }
 
-    @PostMapping("test")
+    @PutMapping("")
     public void modify(ReviewDTO reviewDTO){
-        log.info("POST / Review List");
+        log.info("Put / Review List");
         log.info(reviewDTO);
+
+        if(reviewDTO.getFiles() != null && reviewDTO.getFiles().size() != 0) {
+            List<String> files = fileUploader.uploadFile("review", reviewDTO.getFiles(), 75, 75);
+
+            files.stream().forEach(ele -> reviewDTO.getImgs().add(ele));
+        }
+
+        reviewService.updateReview(reviewDTO);
+
     }
 
 }

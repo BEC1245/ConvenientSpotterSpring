@@ -1,5 +1,6 @@
 package com.convenient.store.product.entity;
 
+import com.convenient.store.product.dto.ReviewDTO;
 import com.convenient.store.user.entity.Users;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -46,6 +47,18 @@ public class Review extends BaseEntity {
                 .build();
 
         imgs.add(reviewImg);
+    }
+
+    public void cleanImgs(){
+        imgs.clear();
+    }
+
+    public void createScore(int score){
+        this.score = score;
+    }
+
+    public void createContent(String content){
+        this.content = content;
     }
 
 }

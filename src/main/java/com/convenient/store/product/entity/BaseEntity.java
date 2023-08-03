@@ -33,4 +33,8 @@ public class BaseEntity {
     @LastModifiedDate
     @Column(name = "modDate")
     private LocalDateTime modDate;
+
+    public void onDelflag(){
+        this.delflag = true;
+    }
 }
