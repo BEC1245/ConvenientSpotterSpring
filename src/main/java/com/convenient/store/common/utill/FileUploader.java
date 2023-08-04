@@ -1,4 +1,4 @@
-package com.convenient.store.product.common.utill;
+package com.convenient.store.common.utill;
 
 
 import org.springframework.beans.factory.annotation.Value;
@@ -29,7 +29,8 @@ public class FileUploader {
         public UploadException(String msg){ super(msg); }
     }
 
-    public List<String> uploadFile(String locName, List<MultipartFile> multipartFiles, int height, int width){
+    // 여러 이미지를 올릴시에
+    public List<String> uploadFile(String locName, List<MultipartFile> multipartFiles, int height, int width, boolean makeThumb){
 
         String loc = getLog(locName);
 
@@ -53,9 +54,10 @@ public class FileUploader {
             ) {
                 FileCopyUtils.copy(in, out);
 
-                File thumbnail = new File(loc, "s_"+realName);
-                Thumbnailator.createThumbnail(upload, thumbnail, height, width);
-
+                if(makeThumb) {
+                    File thumbnail = new File(loc, "s_" + realName);
+                    Thumbnailator.createThumbnail(upload, thumbnail, height, width);
+                }
                 fileNames.add(realName);
             } catch (Exception e){
                 e.printStackTrace();
@@ -66,37 +68,35 @@ public class FileUploader {
         return fileNames;
     }
 
-    public List<String> uploadFile(String locName, List<MultipartFile> multipartFiles){
+    public String uploadFile(String locName, MultipartFile multipartFile, int height, int width, boolean makeThumb){
 
         String loc = getLog(locName);
 
-        if(multipartFiles == null || multipartFiles.size() < 0){
+        if(multipartFile == null){
             return null;
         }
 
-        List<String> fileNames = new ArrayList<>();
+        String fileName = multipartFile.getOriginalFilename();
+        String uuid = UUID.randomUUID().toString();
 
-        for(MultipartFile ele : multipartFiles){
+        String realName = uuid+"_"+fileName;
 
-            String fileName = ele.getName();
-            String uuid = UUID.randomUUID().toString();
+        File upload = new File(loc, realName);
 
-            String realName = uuid+"_"+fileName;
+        try (InputStream in = multipartFile.getInputStream();
+             OutputStream out = new FileOutputStream(upload);
+        ) {
+            FileCopyUtils.copy(in, out);
 
-            File upload = new File(loc, realName);
-
-            try (InputStream in = ele.getInputStream();
-                 OutputStream out = new FileOutputStream(upload);
-            ) {
-                FileCopyUtils.copy(in, out);
-                fileNames.add(realName);
-            } catch (Exception e){
-                e.printStackTrace();
+            if(makeThumb) {
+                File thumbnail = new File(loc, "s_" + realName);
+                Thumbnailator.createThumbnail(upload, thumbnail, height, width);
             }
-
+        } catch (Exception e){
+            e.printStackTrace();
         }
 
-        return fileNames;
+        return realName;
     }
 
     public void deleteFile(String locName, List<String> files){

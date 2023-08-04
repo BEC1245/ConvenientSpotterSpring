@@ -29,4 +29,5 @@ public class Users {
 
     @Column(columnDefinition = "boolean default false")
     private boolean isAdmin;
+
 }

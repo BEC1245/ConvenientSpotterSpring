@@ -1,8 +1,8 @@
 package com.convenient.store.product.controller;
 
-import com.convenient.store.product.common.dto.ScrollRequestDTO;
-import com.convenient.store.product.common.dto.ScrollResponseDTO;
-import com.convenient.store.product.common.utill.FileUploader;
+import com.convenient.store.common.dto.ScrollRequestDTO;
+import com.convenient.store.common.dto.ScrollResponseDTO;
+import com.convenient.store.common.utill.FileUploader;
 import com.convenient.store.product.dto.ReviewDTO;
 import com.convenient.store.product.service.ReviewService;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +41,7 @@ public class ReviewController {
 
         log.info(reviewDTO);
 
-        List<String> fileNames = fileUploader.uploadFile("review", reviewDTO.getFiles(), 75, 75);
+        List<String> fileNames = fileUploader.uploadFile("review", reviewDTO.getFiles(), 75, 75, true);
         reviewDTO.setImgs(fileNames);
 
         Long id = reviewService.regist(reviewDTO);
@@ -61,7 +61,7 @@ public class ReviewController {
         log.info(reviewDTO);
 
         if(reviewDTO.getFiles() != null && reviewDTO.getFiles().size() != 0) {
-            List<String> files = fileUploader.uploadFile("review", reviewDTO.getFiles(), 75, 75);
+            List<String> files = fileUploader.uploadFile("review", reviewDTO.getFiles(), 75, 75, true);
 
             files.stream().forEach(ele -> reviewDTO.getImgs().add(ele));
         }

@@ -46,4 +46,27 @@ public class Product extends BaseEntity {
     @Column(length = 300, nullable = false)
     private String img;
 
+    public void createPname(String pname){
+        this.pname = pname;
+    }
+
+    public void createPrice(int price){
+        this.price = price;
+    }
+
+    public void createContent(String content){
+        this.content = content;
+    }
+
+    public void createState(String state){
+        this.state = state;
+    }
+
+    public void createSname(String sname){
+        this.sname = sname;
+    }
+
+    public void createImg(String img){
+        this.img = img;
+    }
 }

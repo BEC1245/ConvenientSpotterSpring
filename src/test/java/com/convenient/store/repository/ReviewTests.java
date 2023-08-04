@@ -1,6 +1,6 @@
 package com.convenient.store.repository;
 
-import com.convenient.store.product.common.dto.ScrollRequestDTO;
+import com.convenient.store.common.dto.ScrollRequestDTO;
 import com.convenient.store.product.entity.Product;
 import com.convenient.store.product.entity.Review;
 import com.convenient.store.product.entity.ReviewImg;

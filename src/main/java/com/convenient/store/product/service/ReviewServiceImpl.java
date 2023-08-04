@@ -1,18 +1,16 @@
 package com.convenient.store.product.service;
 
-import com.convenient.store.product.common.utill.FileUploader;
+import com.convenient.store.common.utill.FileUploader;
 import com.convenient.store.product.dto.ReviewDTO;
 import com.convenient.store.product.dto.ReviewListDTO;
-import com.convenient.store.product.common.dto.ScrollRequestDTO;
-import com.convenient.store.product.common.dto.ScrollResponseDTO;
+import com.convenient.store.common.dto.ScrollRequestDTO;
+import com.convenient.store.common.dto.ScrollResponseDTO;
 import com.convenient.store.product.entity.Product;
 import com.convenient.store.product.entity.Review;
-import com.convenient.store.product.entity.ReviewImg;
 import com.convenient.store.product.repository.ReviewRepository;
 import com.convenient.store.user.entity.Users;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -96,7 +94,6 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     // 추가한 파일 이름 + 삭제한 파일 이름 + 기존의 이름
-
     @Override
     public void updateReview(ReviewDTO reviewDTO) {
 

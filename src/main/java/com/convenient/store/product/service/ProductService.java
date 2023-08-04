@@ -1,7 +1,7 @@
 package com.convenient.store.product.service;
 
-import com.convenient.store.product.common.dto.PageRequestDTO;
-import com.convenient.store.product.common.dto.PageResponseDTO;
+import com.convenient.store.common.dto.PageRequestDTO;
+import com.convenient.store.common.dto.PageResponseDTO;
 import com.convenient.store.product.dto.ProductDTO;
 import com.convenient.store.product.dto.ProductListWithRcntDTO;
 import com.convenient.store.product.dto.ProductWithRcntAvgDTO;

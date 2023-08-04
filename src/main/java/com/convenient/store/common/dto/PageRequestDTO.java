@@ -1,4 +1,4 @@
-package com.convenient.store.product.common.dto;
+package com.convenient.store.common.dto;
 
 import lombok.*;
 

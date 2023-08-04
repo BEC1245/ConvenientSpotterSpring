@@ -1,8 +1,8 @@
 package com.convenient.store.product.repository.search;
 
 import com.convenient.store.product.dto.ReviewListDTO;
-import com.convenient.store.product.common.dto.ScrollRequestDTO;
-import com.convenient.store.product.common.dto.ScrollResponseDTO;
+import com.convenient.store.common.dto.ScrollRequestDTO;
+import com.convenient.store.common.dto.ScrollResponseDTO;
 import com.convenient.store.product.entity.QProduct;
 import com.convenient.store.product.entity.QReview;
 import com.convenient.store.product.entity.QReviewImg;
