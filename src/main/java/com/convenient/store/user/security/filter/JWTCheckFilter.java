@@ -27,6 +27,8 @@ public class JWTCheckFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
 
+        log.info(request.getContentType() + " / current content Type");
+
         String uri = request.getRequestURI();
 
         if(uri.startsWith("/api/user")){
@@ -55,7 +57,7 @@ public class JWTCheckFilter extends OncePerRequestFilter {
             String pw = (String) claims.get("pw");
             String profile = (String) claims.get("profile");
             String nickName = (String) claims.get("nickName");
-            boolean isAdmin = (boolean) claims.get("isAdmin");
+            List<String> roleNames = (List<String>) claims.get("roleNames");
 
             AuthorityMaker authorityMaker = new AuthorityMaker();
 
@@ -64,8 +66,7 @@ public class JWTCheckFilter extends OncePerRequestFilter {
                     pw,
                     profile,
                     nickName,
-                    isAdmin,
-                    authorityMaker.make(isAdmin)
+                    roleNames
             );
 
             UsernamePasswordAuthenticationToken authenticationToken

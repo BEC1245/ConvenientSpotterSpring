@@ -43,7 +43,7 @@ public class CustomSecurityConfig {
 
         // 일반 로그인
         http.formLogin(config -> {
-            config.loginPage("/api/user/login");
+           config.loginPage("/api/user/login");
            config.successHandler(new APILoginSuccessHandler());
            config.failureHandler(new APILoginFailureHandler());
         });
@@ -54,6 +54,7 @@ public class CustomSecurityConfig {
         // 세션을 만들지 말라는 코드
         http.sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
+        // 로그인 필터를 걸기 전에 jwt가 걸리도록 설계
         http.addFilterBefore(new JWTCheckFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

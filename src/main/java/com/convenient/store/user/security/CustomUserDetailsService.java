@@ -10,10 +10,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Log4j2
 @Service
@@ -21,11 +23,11 @@ import java.util.Optional;
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
-    private final AuthorityMaker authorityMaker;
 
     // email을 채킹하는 로직은 다음과 같다
     // 1. 받은 email인 username을 통해 users를 끌어오고
     // 2. 해당 데이터를 DTO의 데이터로 보내준다.
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
@@ -40,8 +42,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                 users.getPw(),
                 users.getProfile(),
                 users.getNickName(),
-                users.isAdmin(),
-                authorityMaker.make(users.isAdmin())
+                users.getRoles().stream().map(ele -> ele.name()).collect(Collectors.toList())
         );
 
         return userDTO;

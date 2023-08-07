@@ -33,6 +33,12 @@ public class APILoginSuccessHandler implements AuthenticationSuccessHandler {
 
         String jsonStr = gson.toJson(claims);
 
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         response.setContentType("application/json");
         PrintWriter printWriter = response.getWriter();
         printWriter.println(jsonStr);

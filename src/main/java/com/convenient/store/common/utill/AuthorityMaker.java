@@ -21,4 +21,5 @@ public class AuthorityMaker {
 
         return authority.stream().map(str -> new SimpleGrantedAuthority("ROLE_"+str)).collect(Collectors.toList());
     }
+
 }

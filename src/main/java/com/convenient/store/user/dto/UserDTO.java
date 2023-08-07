@@ -22,17 +22,17 @@ public class UserDTO extends User {
     private String pw;
     private String profile;
     private String nickName;
-    private boolean isAdmin;
+    private List<String> roleNames;
 
     // 여기서 authorities는 USER 같은 데이터를 던저야 한다.
-    public UserDTO(String email, String pw, String profile, String nickName, boolean isAdmin, Collection<? extends GrantedAuthority> authorities) {
+    public UserDTO(String email, String pw, String profile, String nickName, List<String> roleNames) {
 
-        super(email, pw, authorities);
+        super(email, pw, roleNames.stream().map(ele -> new SimpleGrantedAuthority(ele)).collect(Collectors.toList()));
         this.email = email;
         this.pw = pw;
         this.profile = profile;
         this.nickName = nickName;
-        this.isAdmin = isAdmin;
+        this.roleNames = roleNames;
 
     }
 
@@ -44,7 +44,7 @@ public class UserDTO extends User {
         claims.put("pw", pw);
         claims.put("profile", profile);
         claims.put("nickName", nickName);
-        claims.put("isAdmin", isAdmin);
+        claims.put("roleNames", roleNames);
 
         return claims;
     }

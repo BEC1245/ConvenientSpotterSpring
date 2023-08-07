@@ -1,13 +1,13 @@
 package com.convenient.store.user.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -27,7 +27,16 @@ public class Users {
 
     private String nickName;
 
-    @Column(columnDefinition = "boolean default false")
-    private boolean isAdmin;
+    @Builder.Default
+    @ElementCollection(fetch = FetchType.LAZY)
+    private List<UsersRole> roles = new ArrayList<>();
+
+    public void addUserRole(UsersRole role){
+        roles.add(role);
+    }
+
+    public void clearRole(){
+        roles.clear();
+    }
 
 }
