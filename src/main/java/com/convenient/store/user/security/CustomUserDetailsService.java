@@ -42,6 +42,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                 users.getPw(),
                 users.getProfile(),
                 users.getNickName(),
+                users.getIsSocial(),
                 users.getRoles().stream().map(ele -> ele.name()).collect(Collectors.toList())
         );
 

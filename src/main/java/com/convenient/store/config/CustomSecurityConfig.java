@@ -4,6 +4,7 @@ import com.convenient.store.user.security.filter.JWTCheckFilter;
 import com.convenient.store.user.security.handler.APILoginFailureHandler;
 import com.convenient.store.user.security.handler.APILoginSuccessHandler;
 import com.convenient.store.user.security.handler.CustomAccessDeniedHandler;
+import com.convenient.store.user.security.handler.OAuthAPILoginSuccessHandler;
 import jakarta.servlet.FilterChain;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -47,6 +48,12 @@ public class CustomSecurityConfig {
            config.successHandler(new APILoginSuccessHandler());
            config.failureHandler(new APILoginFailureHandler());
         });
+
+        http.oauth2Login(config -> {
+            config.successHandler(new OAuthAPILoginSuccessHandler());
+        });
+
+        http.oauth2Client(config -> {});
 
         // 접근 제한 설정
         http.exceptionHandling(config -> config.accessDeniedHandler(new CustomAccessDeniedHandler()));

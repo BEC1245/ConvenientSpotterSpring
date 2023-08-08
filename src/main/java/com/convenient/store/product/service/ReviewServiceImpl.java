@@ -70,6 +70,8 @@ public class ReviewServiceImpl implements ReviewService {
 
         reviewDTO.setNickName(review.getUsers().getNickName());
 
+        reviewDTO.setEmail(review.getUsers().getEmail());
+
         reviewDTO.setImgs(review.getImgs().stream().map(ele -> ele.getImageName()).collect(Collectors.toList()));
 
         return reviewDTO;

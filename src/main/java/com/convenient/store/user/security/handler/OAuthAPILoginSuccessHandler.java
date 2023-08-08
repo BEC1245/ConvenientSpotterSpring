@@ -8,13 +8,15 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
+
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.util.Map;
 
-public class APILoginSuccessHandler implements AuthenticationSuccessHandler {
+public class OAuthAPILoginSuccessHandler implements AuthenticationSuccessHandler {
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -23,7 +25,7 @@ public class APILoginSuccessHandler implements AuthenticationSuccessHandler {
 
         Map<String, Object> claims = userDTO.getClaims();
 
-        String accessToken = JWTUtil.generateToken(claims,1);
+        String accessToken = JWTUtil.generateToken(claims, 1);
         String refreshToken = JWTUtil.generateToken(claims, 60 * 24);
 
         claims.put("accessToken", accessToken);
@@ -33,10 +35,8 @@ public class APILoginSuccessHandler implements AuthenticationSuccessHandler {
 
         String jsonStr = gson.toJson(claims);
 
-        response.setContentType("application/json");
-        PrintWriter printWriter = response.getWriter();
-        printWriter.println(jsonStr);
-        printWriter.close();
+        String encodeStr = URLEncoder.encode(jsonStr, "UTF-8");
 
+        response.sendRedirect("http://localhost:3000/kakaologin?data=" + encodeStr);
     }
 }

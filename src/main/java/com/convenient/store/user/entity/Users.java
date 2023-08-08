@@ -27,6 +27,8 @@ public class Users {
 
     private String nickName;
 
+    private Boolean isSocial;
+
     @Builder.Default
     @ElementCollection(fetch = FetchType.LAZY)
     private List<UsersRole> roles = new ArrayList<>();
@@ -37,6 +39,11 @@ public class Users {
 
     public void clearRole(){
         roles.clear();
+    }
+
+    @PrePersist
+    public void setSocialDefault(){
+        this.isSocial = this.isSocial == null ? false : this.isSocial;
     }
 
 }

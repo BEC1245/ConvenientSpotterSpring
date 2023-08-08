@@ -57,6 +57,7 @@ public class JWTCheckFilter extends OncePerRequestFilter {
             String pw = (String) claims.get("pw");
             String profile = (String) claims.get("profile");
             String nickName = (String) claims.get("nickName");
+            boolean isSocial = (boolean) claims.get("isSocial");
             List<String> roleNames = (List<String>) claims.get("roleNames");
 
             AuthorityMaker authorityMaker = new AuthorityMaker();
@@ -66,6 +67,7 @@ public class JWTCheckFilter extends OncePerRequestFilter {
                     pw,
                     profile,
                     nickName,
+                    isSocial,
                     roleNames
             );
 
@@ -82,6 +84,10 @@ public class JWTCheckFilter extends OncePerRequestFilter {
 
             Gson gson = new Gson();
             String msg = gson.toJson(Map.of("error", "ERROR_ACCESS_TOKEN"));
+
+            if(e.getMessage().equals("Expired")){
+                msg = gson.toJson(Map.of("error", "EXPIRED"));
+            }
 
             response.setContentType("application/json");
             PrintWriter printWriter = response.getWriter();

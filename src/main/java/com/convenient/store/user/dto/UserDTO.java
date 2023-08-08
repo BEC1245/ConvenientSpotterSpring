@@ -6,6 +6,7 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -16,22 +17,24 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @ToString
-public class UserDTO extends User {
+public class UserDTO extends User implements OAuth2User {
 
     private String email;
     private String pw;
     private String profile;
     private String nickName;
+    private Boolean isSocial;
     private List<String> roleNames;
 
     // 여기서 authorities는 USER 같은 데이터를 던저야 한다.
-    public UserDTO(String email, String pw, String profile, String nickName, List<String> roleNames) {
+    public UserDTO(String email, String pw, String profile, String nickName, Boolean isSocial, List<String> roleNames) {
 
         super(email, pw, roleNames.stream().map(ele -> new SimpleGrantedAuthority(ele)).collect(Collectors.toList()));
         this.email = email;
         this.pw = pw;
         this.profile = profile;
         this.nickName = nickName;
+        this.isSocial = isSocial;
         this.roleNames = roleNames;
 
     }
@@ -42,6 +45,7 @@ public class UserDTO extends User {
 
         claims.put("email", email);
         claims.put("pw", pw);
+        claims.put("isSocial", isSocial);
         claims.put("profile", profile);
         claims.put("nickName", nickName);
         claims.put("roleNames", roleNames);
@@ -49,5 +53,10 @@ public class UserDTO extends User {
         return claims;
     }
 
+    @Override
+    public Map<String, Object> getAttributes() { return null; }
+
+    @Override
+    public String getName() { return this.email; }
 
 }

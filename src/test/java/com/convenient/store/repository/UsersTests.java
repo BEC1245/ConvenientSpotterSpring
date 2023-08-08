@@ -49,6 +49,20 @@ public class UsersTests {
 
     }
 
+    @Test
+    public void Insert_3(){
+
+        Users users = Users.builder()
+                .email("user707@gmail.com")
+                .pw("$2a$10$Vde4LqwB3iB/HRz354ZlGOJPaENFIdDrdake2SjYC3CfiusSPk3WS")
+                .nickName("MANAGER1")
+                .roles(List.of(UsersRole.USER, UsersRole.ADMIN))
+                .profile("someJpg.jpg").build();
+
+        repository.save(users);
+
+    }
+
 
 
 

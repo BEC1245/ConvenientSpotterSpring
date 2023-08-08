@@ -31,7 +31,7 @@ public class ReviewController {
         return reviewService.getList(scrollRequestDTO);
     }
 
-    @GetMapping("img/{id}")
+    @GetMapping("{id}")
     public ReviewDTO readImg(@PathVariable("id") Long id){
         return  reviewService.getReview(id);
     }
