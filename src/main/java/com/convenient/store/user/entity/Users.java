@@ -1,10 +1,8 @@
 package com.convenient.store.user.entity;
 
+import com.convenient.store.product.entity.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +13,13 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Users {
+public class Users extends BaseEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(unique = true)
     private String email;
 
     @Column(nullable = false)
@@ -39,6 +41,22 @@ public class Users {
 
     public void clearRole(){
         roles.clear();
+    }
+
+    public void createEmail(String email){
+        this.email = email;
+    }
+
+    public void createPw(String pw){
+        this.pw = pw;
+    }
+
+    public void createProfile(String profile){
+        this.profile = profile;
+    }
+
+    public void createNickName(String nickName){
+        this.nickName = nickName;
     }
 
     @PrePersist

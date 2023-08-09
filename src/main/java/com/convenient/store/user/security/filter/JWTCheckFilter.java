@@ -53,6 +53,9 @@ public class JWTCheckFilter extends OncePerRequestFilter {
 
             filterChain.doFilter(request, response);
 
+            Integer intId = (Integer) claims.get("id");
+
+            Long id = Long.valueOf(intId.longValue());
             String email = (String) claims.get("email");
             String pw = (String) claims.get("pw");
             String profile = (String) claims.get("profile");
@@ -60,9 +63,8 @@ public class JWTCheckFilter extends OncePerRequestFilter {
             boolean isSocial = (boolean) claims.get("isSocial");
             List<String> roleNames = (List<String>) claims.get("roleNames");
 
-            AuthorityMaker authorityMaker = new AuthorityMaker();
-
             UserDTO userDTO = new UserDTO(
+                    id,
                     email,
                     pw,
                     profile,

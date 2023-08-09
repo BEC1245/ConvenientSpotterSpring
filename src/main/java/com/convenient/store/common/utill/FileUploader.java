@@ -24,6 +24,9 @@ public class FileUploader {
     @Value("${com.convenient.file.upload.product}")
     private String productLoc;
 
+    @Value("${com.convenient.file.upload.profile}")
+    private String profileLoc;
+
 
     public static class UploadException extends RuntimeException {
         public UploadException(String msg){ super(msg); }
@@ -142,6 +145,7 @@ public class FileUploader {
         switch (log){
             case "review" : return reviewLoc;
             case "product" : return productLoc;
+            case "profile" : return profileLoc;
         }
         throw new UploadException("log is not matched in File");
     }

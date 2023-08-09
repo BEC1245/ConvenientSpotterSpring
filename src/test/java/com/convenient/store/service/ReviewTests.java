@@ -32,7 +32,6 @@ public class ReviewTests {
                 .content("이 음식 구림")
                 .imgs(fakeNames)
                 .product_id(2L)
-                .email("user009@notgmail.com")
                 .build();
 
         log.info(reviewService.regist(reviewDTO));

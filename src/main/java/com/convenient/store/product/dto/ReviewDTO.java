@@ -19,7 +19,7 @@ public class ReviewDTO {
     private String content;
     private Long product_id;
 
-    private String email;
+    private Long user_id;
     private String nickName;
 
     private List<String> imgs;

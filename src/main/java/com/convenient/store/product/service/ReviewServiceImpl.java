@@ -37,7 +37,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public Long regist(ReviewDTO reviewDTO) {
 
-        Users users = Users.builder().email(reviewDTO.getEmail()).build();
+        Users users = Users.builder().id(reviewDTO.getUser_id()).build();
 
         Product product = Product.builder().id(reviewDTO.getProduct_id()).build();
 
@@ -70,7 +70,7 @@ public class ReviewServiceImpl implements ReviewService {
 
         reviewDTO.setNickName(review.getUsers().getNickName());
 
-        reviewDTO.setEmail(review.getUsers().getEmail());
+        reviewDTO.setUser_id(review.getUsers().getId());
 
         reviewDTO.setImgs(review.getImgs().stream().map(ele -> ele.getImageName()).collect(Collectors.toList()));
 

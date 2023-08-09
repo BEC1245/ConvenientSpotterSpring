@@ -1,16 +1,17 @@
 package com.convenient.store.user.controller;
 
 import com.convenient.store.common.utill.CustomJWTException;
+import com.convenient.store.common.utill.FileUploader;
 import com.convenient.store.common.utill.JWTUtil;
+import com.convenient.store.user.dto.PureUserDTO;
+import com.convenient.store.user.dto.UserDTO;
 import com.nimbusds.jwt.JWT;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Log4j2
@@ -19,6 +20,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class APIUserController {
 
+    private final FileUploader fileUploader;
 
     @RequestMapping("refresh")
     public Map<String, Object> refreshToken(@RequestHeader("Authorization") String authHeader, String refreshToken){

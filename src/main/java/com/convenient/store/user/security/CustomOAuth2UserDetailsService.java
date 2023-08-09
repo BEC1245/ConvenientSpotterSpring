@@ -90,16 +90,17 @@ public class CustomOAuth2UserDetailsService extends DefaultOAuth2UserService {
                     .isSocial(true)
                     .build();
             socialMember.addUserRole(UsersRole.GUEST);
-            userRepository.save(socialMember);
+            user = userRepository.save(socialMember);
 
             UserDTO userDTO =
-                    new UserDTO(email, "1111", "NONE", "Social", true, java.util.List.of("GUEST"));
+                    new UserDTO(user.getId(), user.getEmail(), user.getPw(), user.getProfile(), user.getNickName(), true, java.util.List.of("GUEST"));
 
             return userDTO;
 
         } else {
 
             UserDTO userDTO = new UserDTO(
+                    user.getId(),
                     user.getEmail(),
                     user.getPw(),
                     user.getProfile(),
