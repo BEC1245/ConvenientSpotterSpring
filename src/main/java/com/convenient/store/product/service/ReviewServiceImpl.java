@@ -99,21 +99,25 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public void updateReview(ReviewDTO reviewDTO) {
 
+        // 현 데이터를 가져온다
         Optional<Review> getReview = reviewRepository.findById(reviewDTO.getId());
 
         Review review = getReview.orElseThrow();
 
+        // 있던 정보를 수정한다.
         review.createScore(reviewDTO.getScore());
         review.createContent(reviewDTO.getContent());
 
+        // 수정전 파일이름들을 가져온다.
         List<String> oldFileNames = review.getImgs().stream().map(ele -> ele.getImageName()).collect(Collectors.toList());
         review.cleanImgs();
 
+        // 현재 있는 이미지를 db에 넣는다.
         reviewDTO.getImgs().stream().forEach(ele -> review.insertImgs(ele));
 
         reviewRepository.save(review);
 
-        List<String> remainFileNames = reviewDTO.getImgs().stream().filter(ele -> oldFileNames.indexOf(ele) != -1).collect(Collectors.toList());
+        List<String> remainFileNames = oldFileNames.stream().filter(ele -> reviewDTO.getImgs().indexOf(ele) == -1).collect(Collectors.toList());
 
         fileUploader.deleteFile("review", remainFileNames);
 

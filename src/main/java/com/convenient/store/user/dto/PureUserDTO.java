@@ -12,8 +12,8 @@ import java.util.List;
 @AllArgsConstructor
 public class PureUserDTO {
 
+    private Long id;
     private String email;
-    private String realEmail;
     private String pw;
     private String profile;
     private String nickName;

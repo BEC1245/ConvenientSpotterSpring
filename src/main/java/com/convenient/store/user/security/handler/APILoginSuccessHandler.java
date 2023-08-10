@@ -7,6 +7,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
 
+@Log4j2
 public class APILoginSuccessHandler implements AuthenticationSuccessHandler {
 
     @Override
@@ -22,6 +24,8 @@ public class APILoginSuccessHandler implements AuthenticationSuccessHandler {
         UserDTO userDTO = (UserDTO) authentication.getPrincipal();
 
         Map<String, Object> claims = userDTO.getClaims();
+
+        log.info(claims.get("nickName") + " / check nickname in apiLoginSuccessHandler");
 
         String accessToken = JWTUtil.generateToken(claims,1);
         String refreshToken = JWTUtil.generateToken(claims, 60 * 24);
@@ -33,6 +37,9 @@ public class APILoginSuccessHandler implements AuthenticationSuccessHandler {
 
         String jsonStr = gson.toJson(claims);
 
+        log.info(jsonStr + " / check gsno in apiLoginSuccessHandler");
+
+        response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
         PrintWriter printWriter = response.getWriter();
         printWriter.println(jsonStr);

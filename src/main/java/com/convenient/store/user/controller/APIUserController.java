@@ -5,9 +5,11 @@ import com.convenient.store.common.utill.FileUploader;
 import com.convenient.store.common.utill.JWTUtil;
 import com.convenient.store.user.dto.PureUserDTO;
 import com.convenient.store.user.dto.UserDTO;
+import com.convenient.store.user.service.UserService;
 import com.nimbusds.jwt.JWT;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -21,6 +23,44 @@ import java.util.Map;
 public class APIUserController {
 
     private final FileUploader fileUploader;
+    private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
+
+    @GetMapping("email")
+    public PureUserDTO getUser(String email){ return userService.getUserByEmail(email); }
+
+    @PostMapping("signin")
+    public Map<String, String> registUser(PureUserDTO pureUserDTO){
+
+        log.info(pureUserDTO + " POST / check dto in apiUserController");
+
+        if(pureUserDTO.getFile() != null) {
+            String fileName = fileUploader.uploadFile("profile", pureUserDTO.getFile(), 90, 90, true);
+            pureUserDTO.setProfile(fileName);
+        }
+        pureUserDTO.setPw(passwordEncoder.encode(pureUserDTO.getPw()));
+
+        userService.registUser(pureUserDTO);
+
+        return Map.of("result", "success");
+    }
+
+    @PutMapping("modify")
+    public Map<String, String> modifyInfo(PureUserDTO pureUserDTO){
+
+        if(pureUserDTO.getFile() != null) {
+            String fileName = fileUploader.uploadFile("profile", pureUserDTO.getFile(), 90, 90, true);
+            pureUserDTO.setProfile(fileName);
+        }
+
+        log.info(pureUserDTO + " / check dto in apiUserController");
+
+        pureUserDTO.setPw(passwordEncoder.encode(pureUserDTO.getPw()));
+
+        userService.modifyUserInfo(pureUserDTO);
+
+        return Map.of("result", "success");
+    }
 
     @RequestMapping("refresh")
     public Map<String, Object> refreshToken(@RequestHeader("Authorization") String authHeader, String refreshToken){
