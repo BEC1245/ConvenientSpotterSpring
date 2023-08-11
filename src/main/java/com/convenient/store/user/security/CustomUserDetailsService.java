@@ -37,6 +37,10 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("Not Found");
         }
 
+        if(users.getDelflag() == true){
+            throw new UsernameNotFoundException("RESIGNED");
+        }
+
         UserDTO userDTO = new UserDTO(
                 users.getId(),
                 users.getEmail(),

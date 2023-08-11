@@ -60,6 +60,10 @@ public class Users extends BaseEntity {
         this.nickName = nickName;
     }
 
+    public void createIsSocial(Boolean isSocial){
+        this.isSocial = isSocial;
+    }
+
     @PrePersist
     public void setSocialDefault(){
         this.isSocial = this.isSocial == null ? false : this.isSocial;

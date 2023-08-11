@@ -62,6 +62,25 @@ public class APIUserController {
         return Map.of("result", "success");
     }
 
+    @PutMapping("restore/{id}")
+    public Map<String, String> map(@PathVariable("id") Long id){
+        log.info(id + " PUT / check id in APIUserController");
+
+        userService.restoreUser(id);
+
+        return Map.of("result", "done");
+    }
+
+    @DeleteMapping("resign/{id}")
+    public Map<String, String> deleteUser(@PathVariable("id") Long id){
+
+        log.info(id + " DELETE / deleteUser in APIUserController ");
+
+        userService.deleteUser(id);
+
+        return Map.of("result", "success");
+    }
+
     @RequestMapping("refresh")
     public Map<String, Object> refreshToken(@RequestHeader("Authorization") String authHeader, String refreshToken){
 

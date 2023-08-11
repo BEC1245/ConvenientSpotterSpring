@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
@@ -76,9 +77,13 @@ public class CustomOAuth2UserDetailsService extends DefaultOAuth2UserService {
 
     }
 
-    private UserDTO generateDTO(String email){
+    private UserDTO generateDTO(String email) throws OAuth2AuthenticationException{
 
         Users user = userRepository.getUser(email);
+
+        if(user.getDelflag()== true){
+            throw new OAuth2AuthenticationException(new OAuth2Error("RESIGNED_USER"), "RESIGNED_USER " + user.getId());
+        }
 
         if(user == null){
 

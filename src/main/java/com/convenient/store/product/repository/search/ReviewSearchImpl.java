@@ -38,7 +38,7 @@ public class ReviewSearchImpl extends QuerydslRepositorySupport implements Revie
         query.leftJoin(review.imgs, reviewImg);
         query.innerJoin(product).on(review.product.eq(product));
         query.innerJoin(users).on(review.users.eq(users));
-        query.where(product.id.eq(requestDTO.getId()).and(review.delflag.eq(false)));
+        query.where(product.id.eq(requestDTO.getId()).and(review.delflag.eq(false)).and(users.delflag.eq(false)));
         query.groupBy(review.id);
 
         Pageable pageable = PageRequest.of(requestDTO.getCursor(), 5, Sort.by("id"));

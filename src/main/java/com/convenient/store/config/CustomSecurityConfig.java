@@ -1,10 +1,7 @@
 package com.convenient.store.config;
 
 import com.convenient.store.user.security.filter.JWTCheckFilter;
-import com.convenient.store.user.security.handler.APILoginFailureHandler;
-import com.convenient.store.user.security.handler.APILoginSuccessHandler;
-import com.convenient.store.user.security.handler.CustomAccessDeniedHandler;
-import com.convenient.store.user.security.handler.OAuthAPILoginSuccessHandler;
+import com.convenient.store.user.security.handler.*;
 import jakarta.servlet.FilterChain;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -51,6 +48,7 @@ public class CustomSecurityConfig {
 
         http.oauth2Login(config -> {
             config.successHandler(new OAuthAPILoginSuccessHandler());
+            config.failureHandler(new OAuthAPILoginFailureHandler());
         });
 
         http.oauth2Client(config -> {});

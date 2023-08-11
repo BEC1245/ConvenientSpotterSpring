@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Log4j2
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final FileUploader fileUploader;
@@ -81,6 +81,34 @@ public class UserServiceImpl implements UserService{
                 .roles(List.of(UsersRole.USER))
                 .isSocial(false)
                 .build();
+
+        userRepository.save(users);
+
+    }
+
+    @Override
+    public void deleteUser(Long id) {
+
+        Optional<Users> getUsers = userRepository.findById(id);
+
+        Users users = getUsers.orElseThrow();
+
+        fileUploader.deleteFile("profile", users.getProfile());
+
+        users.onDelflag();
+
+        userRepository.save(users);
+
+    }
+
+    @Override
+    public void restoreUser(Long id) {
+
+        Optional<Users> getUsers = userRepository.findById(id);
+
+        Users users = getUsers.orElseThrow();
+
+        users.offDelflag();
 
         userRepository.save(users);
 

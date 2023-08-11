@@ -12,4 +12,8 @@ public interface UserService {
 
     void registUser(PureUserDTO pureUserDTO);
 
+    void deleteUser(Long id);
+
+    void restoreUser(Long id);
+
 }

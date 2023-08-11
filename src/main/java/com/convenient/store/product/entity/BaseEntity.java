@@ -37,4 +37,8 @@ public class BaseEntity {
     public void onDelflag(){
         this.delflag = true;
     }
+
+    public void offDelflag(){
+        this.delflag = false;
+    }
 }
