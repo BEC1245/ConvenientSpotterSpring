@@ -33,6 +33,7 @@ public class FoodmixSearchImpl extends QuerydslRepositorySupport implements Food
 
         JPQLQuery<Foodmix> query = from(foodmix);
         query.innerJoin(users).on(foodmix.users.eq(users));
+        query.where(foodmix.delflag.eq(false).and(users.delflag.eq(false)));
 
         Pageable pageable = PageRequest.of(scrollRequestDTO.getCursor(), 20, Sort.by("id").descending());
         this.getQuerydsl().applyPagination(pageable, query);
@@ -50,6 +51,7 @@ public class FoodmixSearchImpl extends QuerydslRepositorySupport implements Food
         Long total = sql.fetchCount();
 
         return new ScrollResponseDTO<>(list, total);
+
     }
 
 }

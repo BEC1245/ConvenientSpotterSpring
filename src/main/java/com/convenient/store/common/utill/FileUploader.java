@@ -27,13 +27,15 @@ public class FileUploader {
     @Value("${com.convenient.file.upload.profile}")
     private String profileLoc;
 
+    @Value("${com.convenient.file.upload.foodmix}")
+    private String foodmixLoc;
 
     public static class UploadException extends RuntimeException {
-        public UploadException(String msg){ super(msg); }
+        public UploadException(String msg) { super(msg); }
     }
 
     // 여러 이미지를 올릴시에
-    public List<String> uploadFile(String locName, List<MultipartFile> multipartFiles, int height, int width, boolean makeThumb){
+    public List<String> uploadFile(String locName, List<MultipartFile> multipartFiles, int height, int width, boolean makeThumb) {
 
         String loc = getLog(locName);
 
@@ -45,10 +47,7 @@ public class FileUploader {
 
         for(MultipartFile ele : multipartFiles){
 
-            String fileName = ele.getOriginalFilename();
-            String uuid = UUID.randomUUID().toString();
-
-            String realName = uuid+"_"+fileName;
+            String realName = UUID.randomUUID().toString() + "_" + ele.getOriginalFilename();
 
             File upload = new File(loc, realName);
 
@@ -61,7 +60,9 @@ public class FileUploader {
                     File thumbnail = new File(loc, "s_" + realName);
                     Thumbnailator.createThumbnail(upload, thumbnail, height, width);
                 }
+
                 fileNames.add(realName);
+
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -79,10 +80,7 @@ public class FileUploader {
             return null;
         }
 
-        String fileName = multipartFile.getOriginalFilename();
-        String uuid = UUID.randomUUID().toString();
-
-        String realName = uuid+"_"+fileName;
+        String realName = UUID.randomUUID().toString() + "_" + multipartFile.getOriginalFilename();
 
         File upload = new File(loc, realName);
 
@@ -95,6 +93,7 @@ public class FileUploader {
                 File thumbnail = new File(loc, "s_" + realName);
                 Thumbnailator.createThumbnail(upload, thumbnail, height, width);
             }
+
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -146,6 +145,7 @@ public class FileUploader {
             case "review" : return reviewLoc;
             case "product" : return productLoc;
             case "profile" : return profileLoc;
+            case "foodmix" : return foodmixLoc;
         }
         throw new UploadException("log is not matched in File");
     }

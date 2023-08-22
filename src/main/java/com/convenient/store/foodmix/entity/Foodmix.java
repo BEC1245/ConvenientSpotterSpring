@@ -33,22 +33,16 @@ public class Foodmix extends BaseEntity {
 
     private String imageName;
 
-    @ElementCollection(fetch = FetchType.LAZY)
-    @Builder.Default
-    private List<FoodmixProduct> products = new ArrayList<>();
-
-    public void addProduct(Product product){
-
-        FoodmixProduct foodmixProduct = FoodmixProduct.builder()
-                .product(product)
-                .ord(this.products.size())
-                .build();
-
-        this.products.add(foodmixProduct);
+    public void createTitle(String title){
+        this.title = title;
     }
 
-    public void clearProduct(){
-        this.products.clear();
+    public void createContent(String content){
+        this.content = content;
+    }
+
+    public void createImageName(String imageName){
+        this.imageName = imageName;
     }
 
 }

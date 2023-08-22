@@ -7,6 +7,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -19,6 +20,9 @@ import java.util.Map;
 
 @Log4j2
 public class OAuthAPILoginFailureHandler implements AuthenticationFailureHandler {
+
+    @Value("${com.convenient.frontserver.loc}")
+    String serverLoc;
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
@@ -34,8 +38,6 @@ public class OAuthAPILoginFailureHandler implements AuthenticationFailureHandler
         } else {
             error.put("error", errorMsg);
         }
-
-
 
         Gson gson = new Gson();
 

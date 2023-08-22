@@ -27,11 +27,17 @@ public class JWTCheckFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
 
-        log.info(request.getContentType() + " / current content Type");
+        log.info(request.getRequestURI() + " / method");
 
         String uri = request.getRequestURI();
 
         if(uri.startsWith("/api/user")){
+            return true;
+        }
+        if(uri.startsWith("/favicon.ico")){
+            return true;
+        }
+        if(uri.startsWith("/login/oauth2")){
             return true;
         }
 

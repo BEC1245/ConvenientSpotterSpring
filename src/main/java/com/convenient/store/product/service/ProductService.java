@@ -10,7 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface ProductService {
 
-    PageResponseDTO<ProductListWithRcntDTO> list(PageRequestDTO pageRequestDTO);
+    PageResponseDTO<ProductListWithRcntDTO>
+    list(PageRequestDTO pageRequestDTO);
 
     ProductWithRcntAvgDTO get(Long id);
 

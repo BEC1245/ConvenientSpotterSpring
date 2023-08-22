@@ -81,10 +81,6 @@ public class CustomOAuth2UserDetailsService extends DefaultOAuth2UserService {
 
         Users user = userRepository.getUser(email);
 
-        if(user.getDelflag()== true){
-            throw new OAuth2AuthenticationException(new OAuth2Error("RESIGNED_USER"), "RESIGNED_USER " + user.getId());
-        }
-
         if(user == null){
 
             Users socialMember = Users.builder()
@@ -103,6 +99,10 @@ public class CustomOAuth2UserDetailsService extends DefaultOAuth2UserService {
             return userDTO;
 
         } else {
+
+            if(user.getDelflag() == true){
+                throw new OAuth2AuthenticationException(new OAuth2Error("RESIGNED_USER"), "RESIGNED_USER " + user.getId());
+            }
 
             UserDTO userDTO = new UserDTO(
                     user.getId(),

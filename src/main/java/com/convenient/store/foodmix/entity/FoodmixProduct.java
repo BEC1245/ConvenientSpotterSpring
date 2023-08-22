@@ -6,14 +6,22 @@ import lombok.*;
 
 @Getter
 @Builder
+@Entity
 @ToString
-@Embeddable
 @NoArgsConstructor
 @AllArgsConstructor
 public class FoodmixProduct {
 
-    @ManyToOne
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Foodmix foodmix;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     private Product product;
+
     private int ord;
 
 }

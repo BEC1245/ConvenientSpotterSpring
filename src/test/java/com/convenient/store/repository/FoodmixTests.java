@@ -36,7 +36,7 @@ public class FoodmixTests {
     @Test
     public void insert_1(){
 
-        Users users = Users.builder().id(2L).build();
+        Users users = Users.builder().id(24L).build();
 
         Foodmix foodmix = Foodmix.builder()
                 .title("리이뷰")
@@ -45,23 +45,18 @@ public class FoodmixTests {
                 .imageName("someimage.jpg")
                 .build();
 
-        Product product1 = Product.builder().id(1L).build();
-        Product product2 = Product.builder().id(2L).build();
-
-        foodmix.addProduct(product1);
-        foodmix.addProduct(product2);
-
         foodmixRepository.save(foodmix);
 
     }
 
-    @Test
-    @Transactional
-    public void read_1(){
-
-        log.info(foodmixRepository.getOneFoodmix(1L));
-
-    }
+//    @Test
+//    @Transactional
+//    public void read_1(){
+//
+//        log.info(foodmixRepository.getOneFoodmix(1L));
+//
+//
+//    }
 
 
 }

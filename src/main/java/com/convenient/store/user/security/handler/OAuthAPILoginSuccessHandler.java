@@ -39,4 +39,5 @@ public class OAuthAPILoginSuccessHandler implements AuthenticationSuccessHandler
 
         response.sendRedirect("http://localhost:3000/kakaologin?data=" + encodeStr);
     }
+
 }
